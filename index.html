@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tatiana Osteopathy | Private Practice</title>
+    
+    <!-- Шрифты: Cormorant Garamond (для заголовков - очень дорого) и Manrope (для текста) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --bg-color: #F9F8F6; /* Цвет дорогой бумаги */
+            --text-main: #2C2C2C;
+            --text-muted: #666666;
+            --accent: #1A3C34; /* Глубокий изумрудный */
+            --accent-hover: #122B25;
+            --gold: #C5A065; /* Благородное золото */
+            --white: #FFFFFF;
+            --border: #E5E5E5;
+            --shadow: 0 10px 40px rgba(0,0,0,0.05);
+            --font-head: 'Cormorant Garamond', serif;
+            --font-body: 'Manrope', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 600; color: var(--accent); }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; object-fit: cover; }
+
+        /* --- UTILS --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section-padding { padding: 120px 0; }
+        .text-center { text-align: center; }
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: var(--accent);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px solid var(--accent);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        .btn:hover { background: transparent; color: var(--accent); }
+        .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+        .btn-outline:hover { background: var(--accent); color: var(--white); }
+
+        /* --- NAVBAR --- */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(249, 248, 246, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+            transition: 0.3s;
+        }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: var(--font-head); font-size: 1.8rem; font-weight: 700; letter-spacing: 2px; color: var(--accent); }
+        .nav-links { display: flex; gap: 40px; align-items: center; }
+        .nav-links a { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 500; }
+        .nav-links a:hover { color: var(--gold); }
+        
+        .auth-btn { 
+            padding: 10px 24px; border: 1px solid var(--border); border-radius: 4px; 
+            font-size: 0.8rem; cursor: pointer; transition: 0.3s; background: var(--white);
+        }
+        .auth-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        .burger { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
+        .burger span { width: 24px; height: 1px; background: var(--accent); transition: 0.3s; }
+
+        /* --- HERO --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            position: relative;
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .hero-text h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            color: var(--accent);
+        }
+        .hero-text h1 span { font-style: italic; color: var(--gold); }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 450px;
+            font-weight: 300;
+        }
+        .hero-stats {
+            display: flex; gap: 40px; margin-top: 50px;
+            border-top: 1px solid var(--border); padding-top: 30px;
+        }
+        .stat-item h3 { font-size: 2.5rem; color: var(--gold); margin-bottom: 5px; }
+        .stat-item p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+
+        .hero-img-wrapper {
+            position: relative;
+            height: 600px;
+            border-radius: 200px 200px 0 0; /* Арочная форма - тренд */
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .hero-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- SERVICES --- */
+        .services { background: var(--white); }
+        .section-title { font-size: 3rem; text-align: center; margin-bottom: 20px; }
+        .section-desc { text-align: center; color: var(--text-muted); max-width: 600px; margin: 0 auto 80px; }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .service-card {
+            padding: 40px;
+            border: 1px solid var(--border);
+            transition: 0.4s;
+            background: var(--bg-color);
+        }
+        .service-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: var(--shadow); }
+        .service-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        .service-card p { font-size: 0.95rem; color: var(--text-muted); }
+
+        /* --- REVIEWS WALL --- */
+        .reviews-section { background: var(--accent); color: var(--white); position: relative; overflow: hidden; }
+        .reviews-section h2 { color: var(--white); }
+        .reviews-section .section-desc { color: rgba(255,255,255,0.7); }
+
+        .reviews-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 10px;
+            /* Стилизация скроллбара */
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) transparent;
+        }
+        .review-card {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+        }
+        .review-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .review-author { font-weight: 600; font-size: 0.9rem; }
+        .review-stars { color: var(--gold); font-size: 0.8rem; }
+        .review-text { font-size: 0.9rem; color: rgba(255,255,255,0.8); font-style: italic; }
+
+        .add-review-btn {
+            margin-top: 40px;
+            background: var(--gold);
+            color: var(--accent);
+            border: none;
+            font-weight: 600;
+        }
+        .add-review-btn:hover { background: var(--white); color: var(--accent); }
+
+        /* --- MODALS (Auth & Review) --- */
+        .modal {
+            display: none;
+            position: fixed; inset: 0; z-index: 2000;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            justify-content: center; align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--white);
+            padding: 50px;
+            width: 100%; max-width: 450px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .close-modal { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.5rem; }
+        .modal h3 { font-size: 2rem; margin-bottom: 30px; text-align: center; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 8px; color: var(--text-muted); }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 14px;
+            border: 1px solid var(--border);
+            font-family: var(--font-body);
+            transition: 0.3s;
+        }
+        .form-group input:focus { border-color: var(--accent); }
+        
+        .google-btn {
+            width: 100%; padding: 14px; margin-top: 10px;
+            background: #fff; border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            cursor: pointer; font-weight: 500;
+        }
+        .google-btn:hover { background: #f9f9f9; }
+
+        /* Star Rating Input */
+        .star-rating { display: flex; gap: 5px; font-size: 1.5rem; color: #ddd; cursor: pointer; }
+        .star-rating span.active { color: var(--gold); }
+
+        /* --- FOOTER --- */
+        footer { background: var(--accent); color: var(--white); padding: 60px 0; text-align: center; }
+        footer p { opacity: 0.6; font-size: 0.9rem; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-text h1 { font-size: 3rem; }
+            .hero-subtitle { margin: 0 auto 30px; }
+            .hero-stats { justify-content: center; }
+            .hero-img-wrapper { height: 400px; width: 80%; margin: 0 auto; }
+            .nav-links { display: none; }
+            .burger { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="logo">TATIANA.</a>
+            <div class="nav-links">
+                <a href="#about">О методе</a>
+                <a href="#services">Услуги</a>
+                <a href="#reviews">Отзывы</a>
+                <a href="#contact">Контакты</a>
+            </div>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button class="auth-btn" id="loginBtn">Войти</button>
+                <div class="burger"><span></span><span></span><span></span></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero container">
+        <div class="hero-grid">
+            <div class="hero-text">
+                <h1>Искусство <br><span>восстановления</span> тела</h1>
+                <p class="hero-subtitle">
+                    Приватная практика остеопатии. Индивидуальный подход к каждому пациенту. 
+                    Бережные техники для здоровья всей семьи.
+                </p>
+                <a href="#booking" class="btn">Записаться на приём</a>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <h3 id="exp-counter">6</h3>
+                        <p>Лет практики</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 id="patient-counter">789</h3>
+                        <p>Пациентов</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-img-wrapper">
+                <!-- Вставь сюда ссылку на фото Татьяны -->
+                <img src="https://tatyana45u893837633203848430.diskovod.online" alt="Остеопат Татьяна">
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="services section-padding">
+        <div class="container">
+            <h2 class="section-title">Направления практики</h2>
+            <p class="section-desc">Комплексный подход к здоровью без медикаментов и боли</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Структуральная остеопатия</h3>
+                    <p>Коррекция нарушений опорно-двигательного аппарата. Работа с позвоночником, суставами и мышечными зажимами.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Краниосакральная терапия</h3>
+                    <p>Мягкие техники для работы с черепом и крестцом. Эффективна при мигренях, бессоннице и хронической усталости.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Висцеральная остеопатия</h3>
+                    <p>Восстановление подвижности внутренних органов. Улучшение пищеварения и кровообращения.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Перинатальная остеопатия</h3>
+                    <p>Подготовка к родам, восстановление после них. Безопасные техники для беременных и новорожденных.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS WALL -->
+    <section id="reviews" class="reviews-section section-padding">
+        <div class="container">
+            <h2 class="section-title">Истории пациентов</h2>
+            <p class="section-desc">Реальные отзывы людей, которым мы помогли вернуть качество жизни</p>
+            
+            <div class="reviews-container" id="reviewsWall">
+                <!-- Отзывы будут добавлены через JS -->
+            </div>
+
+            <div class="text-center">
+                <button class="btn add-review-btn" id="openReviewModal">Оставить отзыв</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <div class="container">
+            <h2 class="logo" style="color: white; margin-bottom: 20px;">TATIANA.</h2>
+            <p>Москва, ул. Примерная, д. 10 | +7 (999) 000-00-00</p>
+            <p style="margin-top: 20px;">© 2026 Tatiana Osteopathy. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL: AUTH -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Вход в систему</h3>
+            <form id="authForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Войти</button>
+            </form>
+            <button class="google-btn">
+                <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.715H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.159 6.656 3.58 9 3.58z"/></svg>
+                Войти через Google
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD REVIEW -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Ваш отзыв</h3>
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label>Ваша оценка</label>
+                    <div class="star-rating" id="starRating">
+                        <span data-val="1">★</span><span data-val="2">★</span><span data-val="3">★</span><span data-val="4">★</span><span data-val="5">★</span>
+                    </div>
+                    <input type="hidden" id="ratingValue" value="5">
+                </div>
+                <div class="form-group">
+                    <label>Текст отзыва</label>
+                    <textarea rows="4" required placeholder="Расскажите о вашем опыте..."></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Опубликовать</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. ГЕНЕРАЦИЯ ФЕЙКОВЫХ ОТЗЫВОВ ---
+        const names = ["Анна К.", "Сергей В.", "Марина П.", "Дмитрий С.", "Елена М.", "Алексей Т.", "Ольга Н.", "Игорь Л.", "Светлана Р.", "Павел Ж."];
+        const texts = [
+            "Татьяна — настоящий профессионал. После первого сеанса прошла головная боль, которая мучила годами.",
+            "Очень бережный подход. Ребенок перестал плакать по ночам после визита к остеопату.",
+            "Привела мужа на спортивную остеопатию. Теперь ходим всей семьей. Атмосфера в кабинете располагает.",
+            "Долго искала своего специалиста. Татьяна слушает и слышит. Рекомендую всем знакомым.",
+            "Профессионализм высочайшего уровня. Чувствуется огромный опыт и любовь к делу.",
+            "Помогла восстановиться после родов. Спасибо за чуткость и внимательность!",
+            "Убрала зажим в шее за один прием. Теперь сплю как младенец.",
+            "Очень комфортный прием, никаких лишних назначений. Только мягкие техники."
+        ];
+
+        let reviewsCount = 130; // Стартовое количество
+        let patientsCount = 789; // Стартовый счетчик пациентов
+
+        function generateReviews() {
+            const wall = document.getElementById('reviewsWall');
+            // Генерируем 12 отзывов для отображения (остальные "в базе")
+            for(let i=0; i<12; i++) {
+                const name = names[Math.floor(Math.random() * names.length)];
+                const text = texts[Math.floor(Math.random() * texts.length)];
+                const stars = "★★★★★";
+                
+                const card = document.createElement('div');
+                card.className = 'review-card';
+                card.innerHTML = `
+                    <div class="review-header">
+                        <span class="review-author">${name}</span>
+                        <span class="review-stars">${stars}</span>
+                    </div>
+                    <p class="review-text">"${text}"</p>
+                `;
+                wall.appendChild(card);
+            }
+        }
+
+        // --- 2. ЛОГИКА СЧЕТЧИКОВ ---
+        function updateCounters() {
+            document.getElementById('patient-counter').innerText = patientsCount;
+            // Можно добавить анимацию чисел, но пока просто текст
+        }
+
+        // --- 3. МОДАЛЬНЫЕ ОКНА И АВТОРИЗАЦИЯ ---
+        const authModal = document.getElementById('authModal');
+        const reviewModal = document.getElementById('reviewModal');
+        const loginBtn = document.getElementById('loginBtn');
+        const openReviewBtn = document.getElementById('openReviewModal');
+        const closeBtns = document.querySelectorAll('.close-modal');
+
+        // Открытие/Закрытие
+        loginBtn.onclick = () => authModal.classList.add('active');
+        openReviewBtn.onclick = () => {
+            if(localStorage.getItem('isLoggedIn')) {
+                reviewModal.classList.add('active');
+            } else {
+                alert("Пожалуйста, войдите в систему, чтобы оставить отзыв.");
+                authModal.classList.add('active');
+            }
+        };
+        closeBtns.forEach(btn => btn.onclick = () => {
+            authModal.classList.remove('active');
+            reviewModal.classList.remove('active');
+        });
+
+        // Фейковая авторизация
+        document.getElementById('authForm').onsubmit = (e) => {
+            e.preventDefault();
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', 'User_' + Math.floor(Math.random()*1000));
+            authModal.classList.remove('active');
+            loginBtn.innerText = localStorage.getItem('username');
+            loginBtn.style.background = '#1A3C34';
+            loginBtn.style.color = '#fff';
+            alert("Вы успешно вошли!");
+        };
+
+        // Проверка входа при загрузке
+        if(localStorage.getItem('isLoggedIn')) {
+            loginBtn.innerText = localStorage.getItem('username');
+            loginBtn.style.background = '#1A3C34';
+            loginBtn.style.color = '#fff';
+        }
+
+        // --- 4. ДОБАВЛЕНИЕ ОТЗЫВА ---
+        const starSpans = document.querySelectorAll('#starRating span');
+        const ratingInput = document.getElementById('ratingValue');
+
+        starSpans.forEach(star => {
+            star.onclick = () => {
+                const val = star.getAttribute('data-val');
+                ratingInput.value = val;
+                starSpans.forEach(s => s.classList.remove('active'));
+                for(let i=0; i<val; i++) starSpans[i].classList.add('active');
+            }
+        });
+
+        document.getElementById('reviewForm').onsubmit = (e) => {
+            e.preventDefault();
+            
+            // Проверка на спам (1 отзыв в день)
+            const lastReviewDate = localStorage.getItem('lastReviewDate');
+            const today = new Date().toDateString();
+            
+            if(lastReviewDate === today) {
+                alert("Вы уже оставляли отзыв сегодня. Следующий отзыв доступен завтра.");
+                return;
+            }
+
+            const text = e.target.querySelector('textarea').value;
+            const rating = "★".repeat(ratingInput.value);
+            const username = localStorage.getItem('username') || 'Гость';
+
+            const wall = document.getElementById('reviewsWall');
+            const newCard = document.createElement('div');
+            newCard.className = 'review-card';
+            newCard.style.border = '1px solid #C5A065'; // Подсветка нового
+            newCard.innerHTML = `
+                <div class="review-header">
+                    <span class="review-author">${username}</span>
+                    <span class="review-stars">${rating}</span>
+                </div>
+                <p class="review-text">"${text}"</p>
+            `;
+            
+            wall.insertBefore(newCard, wall.firstChild);
+            
+            // Обновляем счетчики
+            reviewsCount++;
+            patientsCount++; // Допустим, каждый новый отзыв = новый пациент
+            updateCounters();
+            
+            localStorage.setItem('lastReviewDate', today);
+            reviewModal.classList.remove('active');
+            e.target.reset();
+            alert("Спасибо за ваш отзыв!");
+        };
+
+        // Инициализация
+        generateReviews();
+        updateCounters();
+
+    </script>
+</body>
+</html>
