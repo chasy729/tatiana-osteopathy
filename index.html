@@ -34,12 +34,18 @@
             font-family: var(--font-body);
             line-height: 1.6;
             overflow-x: hidden;
+            scroll-behavior: smooth; /* Базовый плавный скролл */
         }
 
         h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 600; color: var(--accent); }
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        a { text-decoration: none; color: inherit; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
         ul { list-style: none; }
         img { max-width: 100%; display: block; object-fit: cover; }
+        
+        /* Глобальная плавность для интерактивных элементов */
+        button, .service-card, .review-card, .contact-card, input, select, textarea {
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
 
         /* --- UTILS --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
@@ -120,7 +126,7 @@
         .service-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
         .service-card p { font-size: 0.95rem; color: var(--text-muted); }
 
-        /* --- REVIEWS WALL --- */
+        /* --- REVIEWS WALL & CUSTOM SCROLLBAR --- */
         .reviews-section { background: var(--accent); color: var(--white); position: relative; overflow: hidden; }
         .reviews-section h2 { color: var(--white); }
         .reviews-section .section-desc { color: rgba(255,255,255,0.7); }
@@ -128,8 +134,15 @@
         .reviews-container {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px; max-height: 600px; overflow-y: auto; padding-right: 10px;
-            scrollbar-width: thin; scrollbar-color: var(--gold) transparent;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) transparent;
         }
+
+        .reviews-container::-webkit-scrollbar { width: 6px; }
+        .reviews-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+        .reviews-container::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+        .reviews-container::-webkit-scrollbar-thumb:hover { background: #d4b075; }
+
         .review-card { background: rgba(255,255,255,0.05); padding: 25px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px); }
         .review-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
         .review-author { font-weight: 600; font-size: 0.9rem; }
@@ -152,14 +165,69 @@
         .submit-btn { width: 100%; padding: 18px; background: var(--accent); color: var(--white); border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.3s; }
         .submit-btn:hover { background: var(--accent-hover); }
 
-        /* --- CONTACT --- */
+        /* --- CONTACT & FLOATING POINTER --- */
         .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: center; }
         .contact-card { padding: 30px; background: var(--white); border: 1px solid var(--border); }
         .contact-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
-        .tg-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; padding: 10px 20px; background: #0088cc; color: white !important; border-radius: 4px; font-size: 0.9rem; }
-        .tg-btn:hover { background: #0077b5; transform: translateY(-2px); }
+        
+        .tg-btn { 
+            display: inline-flex; align-items: center; gap: 8px; 
+            padding: 12px 24px; background: #0088cc; color: white !important; 
+            border-radius: 6px; font-size: 0.95rem; font-weight: 500;
+            margin-top: 15px;
+        }
+        .tg-btn:hover { background: #0077b5; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,136,204,0.3); }
+        
+        /* ПЛАВАЮЩАЯ СТРЕЛКА-УКАЗАТЕЛЬ (FIXED) */
+        .floating-pointer {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(197, 160, 101, 0.5);
+            animation: pulseGold 2s infinite;
+            transition: transform 0.3s;
+        }
+        
+        .floating-pointer:hover {
+            transform: scale(1.1);
+            background: #d4b075;
+        }
 
-        /* --- MODALS (Custom Toast & Auth) --- */
+        .floating-pointer svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--white);
+            transform: rotate(90deg);
+        }
+
+        @keyframes pulseGold {
+            0% { box-shadow: 0 0 0 0 rgba(197, 160, 101, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(197, 160, 101, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(197, 160, 101, 0); }
+        }
+
+        /* Подсветка целевой кнопки */
+        .tg-btn.highlighted {
+            animation: highlightPulse 1s ease-in-out 3;
+            background: #00aaff !important;
+            box-shadow: 0 0 25px rgba(0, 170, 255, 0.6);
+        }
+
+        @keyframes highlightPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* --- MODALS --- */
         .modal-overlay {
             display: none; position: fixed; inset: 0; z-index: 2000;
             background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
@@ -176,8 +244,8 @@
         .modal-actions { display: flex; gap: 15px; margin-top: 30px; }
         .modal-actions button { flex: 1; }
 
-        /* Custom Toast Notification */
-        .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 3000; display: flex; flex-direction: column; gap: 10px; }
+        /* Toast Notification */
+        .toast-container { position: fixed; bottom: 100px; right: 30px; z-index: 3000; display: flex; flex-direction: column; gap: 10px; }
         .toast {
             background: var(--white); padding: 20px 25px; border-left: 4px solid var(--accent);
             box-shadow: 0 10px 30px rgba(0,0,0,0.15); min-width: 300px;
@@ -211,6 +279,8 @@
             .nav-links { display: none; }
             .burger { display: flex; }
             .form-box { padding: 30px 20px; }
+            .floating-pointer { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+            .floating-pointer svg { width: 24px; height: 24px; }
         }
     </style>
 </head>
@@ -256,13 +326,12 @@
                 </div>
             </div>
             <div class="hero-img-wrapper">
-                <!-- ВАЖНО: Убедись, что файл tatyana.jpg лежит рядом с index.html -->
                 <img src="tatyana.jpg" alt="Остеопат Татьяна">
             </div>
         </div>
     </section>
 
-    <!-- ABOUT METHOD (PSYCHOLOGY TRUST) -->
+    <!-- ABOUT METHOD -->
     <section id="about" class="about-method section-padding">
         <div class="container method-content">
             <h2 class="section-title">Философия метода</h2>
@@ -289,7 +358,7 @@
         </div>
     </section>
 
-    <!-- SERVICES (NO PREGNANCY, YES KIDS) -->
+    <!-- SERVICES -->
     <section id="services" class="services section-padding">
         <div class="container">
             <h2 class="section-title">Направления практики</h2>
@@ -322,9 +391,7 @@
             <h2 class="section-title">Истории пациентов</h2>
             <p class="section-desc">Реальные отзывы людей, которым мы помогли вернуть качество жизни</p>
             
-            <div class="reviews-container" id="reviewsWall">
-                <!-- Отзывы генерируются JS -->
-            </div>
+            <div class="reviews-container" id="reviewsWall"></div>
 
             <div class="text-center">
                 <button class="btn add-review-btn" id="openReviewModal">Оставить отзыв</button>
@@ -332,14 +399,13 @@
         </div>
     </section>
 
-    <!-- BOOKING FORM (FORMSPREE INTEGRATION) -->
+    <!-- BOOKING FORM -->
     <section id="booking" class="booking-section section-padding">
         <div class="container">
             <h2 class="section-title">Запись на приём</h2>
             <p class="section-desc">Заполните форму, и я свяжусь с вами для подтверждения времени</p>
             
             <div class="form-box">
-                <!-- ЗАМЕНИ ССЫЛКУ НИЖЕ НА СВОЮ ИЗ FORMSPREE -->
                 <form action="https://formspree.io/f/xbgoagey" method="POST" id="bookingForm">
                     <div class="form-group">
                         <label>Ваше имя *</label>
@@ -379,13 +445,15 @@
                     <p><a href="tel:+79055967009">+7 905 596 70 09</a></p>
                     <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 5px;">Пн-Сб: 10:00 - 20:00</p>
                 </div>
-                <div class="contact-card">
+                
+                <div class="contact-card" id="tgCard">
                     <h3>Telegram</h3>
                     <p>Для быстрой связи и вопросов</p>
-                    <a href="https://t.me/Tatium" target="_blank" class="tg-btn">
+                    <a href="https://t.me/Tatium" target="_blank" class="tg-btn" id="tgButton">
                         Написать в Telegram
                     </a>
                 </div>
+
                 <div class="contact-card">
                     <h3>Адрес</h3>
                     <p>г. Москва</p>
@@ -402,6 +470,13 @@
             <p>© 2026 Tatiana Osteopathy. Все права защищены.</p>
         </div>
     </footer>
+
+    <!-- FLOATING POINTER ARROW -->
+    <div class="floating-pointer" onclick="handlePointerClick()" title="Связаться в Telegram">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 2C12.55 2 13 2.45 13 3V13.59L17.29 9.29C17.68 8.9 18.32 8.9 18.71 9.29C19.1 9.68 19.1 10.32 18.71 10.71L12.71 16.71C12.32 17.1 11.68 17.1 11.29 16.71L5.29 10.71C4.9 10.32 4.9 9.68 5.29 9.29C5.68 8.9 6.32 8.9 6.71 9.29L11 13.59V3C11 2.45 11.45 2 12 2Z"/>
+        </svg>
+    </div>
 
     <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toastContainer"></div>
@@ -464,7 +539,30 @@
     </div>
 
     <script>
-        // --- 1. CUSTOM TOAST NOTIFICATIONS ---
+        // --- 1. SMOOTH SCROLL FOR NAV LINKS ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Закрываем мобильное меню если открыто
+                    const navLinks = document.querySelector('.nav-links');
+                    if(navLinks && window.innerWidth <= 900) {
+                        // Логика закрытия бургера если есть
+                    }
+                }
+            });
+        });
+
+        // --- 2. CUSTOM TOAST NOTIFICATIONS ---
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -483,7 +581,7 @@
             }, 5000);
         }
 
-        // --- 2. REVIEWS SYSTEM (FIXED STORAGE) ---
+        // --- 3. REVIEWS SYSTEM ---
         const defaultReviews = [
             { author: "Анна К.", text: "Татьяна — настоящий профессионал. После первого сеанса прошла головная боль, которая мучила годами.", stars: 5 },
             { author: "Сергей В.", text: "Очень бережный подход. Ребенок перестал плакать по ночам после визита к остеопату.", stars: 5 },
@@ -497,9 +595,7 @@
         try {
             const stored = localStorage.getItem('tatiana_reviews');
             savedReviews = stored ? JSON.parse(stored) : [...defaultReviews];
-        } catch (e) {
-            savedReviews = [...defaultReviews];
-        }
+        } catch (e) { savedReviews = [...defaultReviews]; }
 
         let patientsCount = 789;
         try {
@@ -524,11 +620,10 @@
                 `;
                 wall.appendChild(card);
             });
-            
             document.getElementById('patient-counter').innerText = patientsCount;
         }
 
-        // --- 3. AUTH & LOGOUT SYSTEM ---
+        // --- 4. AUTH & LOGOUT SYSTEM ---
         const authModal = document.getElementById('authModal');
         const reviewModal = document.getElementById('reviewModal');
         const logoutModal = document.getElementById('logoutModal');
@@ -543,33 +638,19 @@
             loginBtn.classList.add('logged-in');
         }
 
-        // Обработка клика по кнопке входа/выхода
         loginBtn.onclick = () => {
-            if(currentUser) {
-                // Если пользователь авторизован - показываем красивое модальное окно
-                logoutModal.classList.add('active');
-            } else {
-                // Если не авторизован - показываем окно входа
-                authModal.classList.add('active');
-            }
+            if(currentUser) logoutModal.classList.add('active');
+            else authModal.classList.add('active');
         };
 
-        // Отмена выхода
-        cancelLogoutBtn.onclick = () => {
-            logoutModal.classList.remove('active');
-        };
+        cancelLogoutBtn.onclick = () => logoutModal.classList.remove('active');
 
-        // Подтверждение выхода
         confirmLogoutBtn.onclick = () => {
             localStorage.removeItem('tatiana_user');
             localStorage.removeItem('last_review_date');
             logoutModal.classList.remove('active');
-            location.reload(); // Перезагружаем страницу для сброса состояния кнопки
-            
-            // Показываем тост после перезагрузки (через небольшой таймаут)
-            setTimeout(() => {
-                showToast('Вы вышли из аккаунта!', 'info');
-            }, 500);
+            location.reload();
+            setTimeout(() => showToast('Вы вышли из аккаунта!', 'info'), 500);
         };
 
         document.getElementById('authForm').onsubmit = (e) => {
@@ -582,21 +663,19 @@
             showToast(`Добро пожаловать, ${username}!`, 'success');
         };
 
-        // --- 4. ADD REVIEW LOGIC ---
+        // --- 5. ADD REVIEW LOGIC ---
         openReviewBtn.onclick = () => {
             if(!localStorage.getItem('tatiana_user')) {
                 showToast('Пожалуйста, войдите в систему, чтобы оставить отзыв.', 'error');
                 authModal.classList.add('active');
                 return;
             }
-            
             const lastDate = localStorage.getItem('last_review_date');
             const today = new Date().toDateString();
             if(lastDate === today) {
                 showToast('Вы уже оставляли отзыв сегодня.', 'error');
                 return;
             }
-            
             reviewModal.classList.add('active');
         };
 
@@ -626,7 +705,6 @@
                 localStorage.setItem('tatiana_patients', patientsCount);
                 localStorage.setItem('last_review_date', new Date().toDateString());
             } catch (err) {
-                console.error("Ошибка сохранения:", err);
                 showToast("Не удалось сохранить отзыв", "error");
                 return;
             }
@@ -637,7 +715,7 @@
             showToast('Спасибо за ваш отзыв!', 'success');
         };
 
-        // --- 5. BOOKING FORM VALIDATION ---
+        // --- 6. BOOKING FORM VALIDATION ---
         const bookingForm = document.getElementById('bookingForm');
         const phoneInput = document.getElementById('phoneInput');
 
@@ -660,7 +738,25 @@
             showToast('Заявка отправляется...', 'success');
         };
 
-        // Закрытие всех модалок по крестику или клику вне окна
+        // --- 7. FLOATING POINTER LOGIC ---
+        function handlePointerClick() {
+            const tgBtn = document.getElementById('tgButton');
+            const rect = tgBtn.getBoundingClientRect();
+            const isVisible = (rect.top >= 0 && rect.bottom <= window.innerHeight);
+
+            if (isVisible) {
+                window.open('https://t.me/Tatium', '_blank');
+            } else {
+                tgBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                tgBtn.classList.add('highlighted');
+                setTimeout(() => {
+                    window.open('https://t.me/Tatium', '_blank');
+                    tgBtn.classList.remove('highlighted');
+                }, 1500);
+            }
+        }
+
+        // Close modals
         document.querySelectorAll('.close-modal').forEach(btn => {
             btn.onclick = () => {
                 authModal.classList.remove('active');
@@ -671,9 +767,7 @@
 
         document.querySelectorAll('.modal-overlay').forEach(modal => {
             modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.remove('active');
-                }
+                if (e.target === modal) modal.classList.remove('active');
             });
         });
 
