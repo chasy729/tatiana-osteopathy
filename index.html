@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tatiana Osteopathy | Private Practice</title>
     
-    <!-- Шрифты: Cormorant Garamond (для заголовков - очень дорого) и Manrope (для текста) -->
+    <!-- Шрифты -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -13,12 +13,12 @@
     <style>
         /* --- VARIABLES & RESET --- */
         :root {
-            --bg-color: #F9F8F6; /* Цвет дорогой бумаги */
+            --bg-color: #F9F8F6;
             --text-main: #2C2C2C;
             --text-muted: #666666;
-            --accent: #1A3C34; /* Глубокий изумрудный */
+            --accent: #1A3C34;
             --accent-hover: #122B25;
-            --gold: #C5A065; /* Благородное золото */
+            --gold: #C5A065;
             --white: #FFFFFF;
             --border: #E5E5E5;
             --shadow: 0 10px 40px rgba(0,0,0,0.05);
@@ -45,6 +45,7 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .section-padding { padding: 120px 0; }
         .text-center { text-align: center; }
+        
         .btn {
             display: inline-block;
             padding: 16px 32px;
@@ -59,6 +60,7 @@
             transition: all 0.4s ease;
         }
         .btn:hover { background: transparent; color: var(--accent); }
+        
         .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
         .btn-outline:hover { background: var(--accent); color: var(--white); }
 
@@ -82,70 +84,38 @@
             font-size: 0.8rem; cursor: pointer; transition: 0.3s; background: var(--white);
         }
         .auth-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .auth-btn.logged-in { background: var(--accent); color: var(--white); border-color: var(--accent); }
 
         .burger { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
         .burger span { width: 24px; height: 1px; background: var(--accent); transition: 0.3s; }
 
         /* --- HERO --- */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding-top: 80px;
-            position: relative;
-        }
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-        .hero-text h1 {
-            font-size: 4.5rem;
-            line-height: 1.1;
-            margin-bottom: 30px;
-            color: var(--accent);
-        }
+        .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 80px; position: relative; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .hero-text h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 30px; color: var(--accent); }
         .hero-text h1 span { font-style: italic; color: var(--gold); }
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            max-width: 450px;
-            font-weight: 300;
-        }
-        .hero-stats {
-            display: flex; gap: 40px; margin-top: 50px;
-            border-top: 1px solid var(--border); padding-top: 30px;
-        }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; max-width: 450px; font-weight: 300; }
+        
+        .hero-stats { display: flex; gap: 40px; margin-top: 50px; border-top: 1px solid var(--border); padding-top: 30px; }
         .stat-item h3 { font-size: 2.5rem; color: var(--gold); margin-bottom: 5px; }
         .stat-item p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
 
         .hero-img-wrapper {
-            position: relative;
-            height: 600px;
-            border-radius: 200px 200px 0 0; /* Арочная форма - тренд */
-            overflow: hidden;
-            box-shadow: var(--shadow);
+            position: relative; height: 600px; border-radius: 200px 200px 0 0;
+            overflow: hidden; box-shadow: var(--shadow); background: #eee;
         }
         .hero-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
 
+        /* --- ABOUT (METHOD) --- */
+        .about-method { background: var(--white); }
+        .method-content { max-width: 800px; margin: 0 auto; text-align: center; }
+        .method-content p { font-size: 1.1rem; margin-bottom: 20px; color: var(--text-main); }
+        .trust-badges { display: flex; justify-content: center; gap: 30px; margin-top: 40px; flex-wrap: wrap; }
+        .badge { padding: 15px 25px; background: var(--bg-color); border: 1px solid var(--border); font-size: 0.9rem; font-weight: 500; }
+
         /* --- SERVICES --- */
-        .services { background: var(--white); }
-        .section-title { font-size: 3rem; text-align: center; margin-bottom: 20px; }
-        .section-desc { text-align: center; color: var(--text-muted); max-width: 600px; margin: 0 auto 80px; }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .service-card {
-            padding: 40px;
-            border: 1px solid var(--border);
-            transition: 0.4s;
-            background: var(--bg-color);
-        }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .service-card { padding: 40px; border: 1px solid var(--border); transition: 0.4s; background: var(--bg-color); }
         .service-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: var(--shadow); }
         .service-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
         .service-card p { font-size: 0.95rem; color: var(--text-muted); }
@@ -154,84 +124,81 @@
         .reviews-section { background: var(--accent); color: var(--white); position: relative; overflow: hidden; }
         .reviews-section h2 { color: var(--white); }
         .reviews-section .section-desc { color: rgba(255,255,255,0.7); }
-
+        
         .reviews-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            max-height: 600px;
-            overflow-y: auto;
-            padding-right: 10px;
-            /* Стилизация скроллбара */
-            scrollbar-width: thin;
-            scrollbar-color: var(--gold) transparent;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px; max-height: 600px; overflow-y: auto; padding-right: 10px;
+            scrollbar-width: thin; scrollbar-color: var(--gold) transparent;
         }
-        .review-card {
-            background: rgba(255,255,255,0.05);
-            padding: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(5px);
-        }
+        .review-card { background: rgba(255,255,255,0.05); padding: 25px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px); }
         .review-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
         .review-author { font-weight: 600; font-size: 0.9rem; }
         .review-stars { color: var(--gold); font-size: 0.8rem; }
         .review-text { font-size: 0.9rem; color: rgba(255,255,255,0.8); font-style: italic; }
-
-        .add-review-btn {
-            margin-top: 40px;
-            background: var(--gold);
-            color: var(--accent);
-            border: none;
-            font-weight: 600;
-        }
+        
+        .add-review-btn { margin-top: 40px; background: var(--gold); color: var(--accent); border: none; font-weight: 600; }
         .add-review-btn:hover { background: var(--white); color: var(--accent); }
 
-        /* --- MODALS (Auth & Review) --- */
-        .modal {
-            display: none;
-            position: fixed; inset: 0; z-index: 2000;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
+        /* --- BOOKING FORM --- */
+        .booking-section { background: var(--bg-color); }
+        .form-box { max-width: 600px; margin: 0 auto; background: var(--white); padding: 50px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 8px; color: var(--text-muted); font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 14px; border: 1px solid var(--border); font-family: var(--font-body); transition: 0.3s; background: var(--bg-color);
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); background: var(--white); }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .submit-btn { width: 100%; padding: 18px; background: var(--accent); color: var(--white); border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .submit-btn:hover { background: var(--accent-hover); }
+
+        /* --- CONTACT --- */
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: center; }
+        .contact-card { padding: 30px; background: var(--white); border: 1px solid var(--border); }
+        .contact-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+        .tg-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; padding: 10px 20px; background: #0088cc; color: white !important; border-radius: 4px; font-size: 0.9rem; }
+        .tg-btn:hover { background: #0077b5; transform: translateY(-2px); }
+
+        /* --- MODALS (Custom Toast & Auth) --- */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
             justify-content: center; align-items: center;
         }
-        .modal.active { display: flex; }
+        .modal-overlay.active { display: flex; }
+        
         .modal-content {
-            background: var(--white);
-            padding: 50px;
-            width: 100%; max-width: 450px;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            background: var(--white); padding: 40px; width: 100%; max-width: 450px;
+            position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
         }
-        .close-modal { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.5rem; }
-        .modal h3 { font-size: 2rem; margin-bottom: 30px; text-align: center; }
-        
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 8px; color: var(--text-muted); }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%; padding: 14px;
-            border: 1px solid var(--border);
-            font-family: var(--font-body);
-            transition: 0.3s;
-        }
-        .form-group input:focus { border-color: var(--accent); }
-        
-        .google-btn {
-            width: 100%; padding: 14px; margin-top: 10px;
-            background: #fff; border: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            cursor: pointer; font-weight: 500;
-        }
-        .google-btn:hover { background: #f9f9f9; }
+        .close-modal { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.5rem; color: var(--text-muted); }
+        .modal-content h3 { font-size: 1.8rem; margin-bottom: 25px; text-align: center; }
 
-        /* Star Rating Input */
-        .star-rating { display: flex; gap: 5px; font-size: 1.5rem; color: #ddd; cursor: pointer; }
+        /* Custom Toast Notification */
+        .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 3000; display: flex; flex-direction: column; gap: 10px; }
+        .toast {
+            background: var(--white); padding: 20px 25px; border-left: 4px solid var(--accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); min-width: 300px;
+            display: flex; justify-content: space-between; align-items: center;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        .toast.error { border-left-color: #d32f2f; }
+        .toast.success { border-left-color: #2e7d32; }
+        .toast-msg { font-size: 0.95rem; color: var(--text-main); }
+        .toast-close { cursor: pointer; color: var(--text-muted); margin-left: 15px; font-size: 1.2rem; }
+        
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateY(10px); } }
+
+        /* Star Rating */
+        .star-rating { display: flex; gap: 5px; font-size: 1.5rem; color: #ddd; cursor: pointer; margin-bottom: 10px; }
         .star-rating span.active { color: var(--gold); }
 
-        /* --- FOOTER --- */
+        /* Footer */
         footer { background: var(--accent); color: var(--white); padding: 60px 0; text-align: center; }
         footer p { opacity: 0.6; font-size: 0.9rem; }
 
-        /* --- RESPONSIVE --- */
+        /* Responsive */
         @media (max-width: 900px) {
             .hero-grid { grid-template-columns: 1fr; text-align: center; }
             .hero-text h1 { font-size: 3rem; }
@@ -240,6 +207,7 @@
             .hero-img-wrapper { height: 400px; width: 80%; margin: 0 auto; }
             .nav-links { display: none; }
             .burger { display: flex; }
+            .form-box { padding: 30px 20px; }
         }
     </style>
 </head>
@@ -285,34 +253,61 @@
                 </div>
             </div>
             <div class="hero-img-wrapper">
-                <!-- Вставь сюда ссылку на фото Татьяны -->
+                <!-- ВАЖНО: Убедись, что файл tatyana.jpg лежит рядом с index.html -->
                 <img src="tatyana.jpg" alt="Остеопат Татьяна">
             </div>
         </div>
     </section>
 
-    <!-- SERVICES -->
+    <!-- ABOUT METHOD (PSYCHOLOGY TRUST) -->
+    <section id="about" class="about-method section-padding">
+        <div class="container method-content">
+            <h2 class="section-title">Философия метода</h2>
+            <p>
+                Остеопатия — это не просто массаж или мануальная терапия. Это глубокая медицинская дисциплина, 
+                основанная на знании анатомии и физиологии. Тело человека — единая саморегулирующаяся система, 
+                где каждый элемент влияет на другой.
+            </p>
+            <p>
+                Моя задача как специалиста — найти первопричину дискомфорта, а не бороться со следствием. 
+                Используя сверхчувствительность рук, я считываю микроскопические движения тканей, 
+                выявляя ограничения там, где обычная диагностика часто бессильна.
+            </p>
+            <p>
+                Это безопасный, безболезненный и научно обоснованный метод, признанный ВОЗ. 
+                Он подходит людям любого возраста, потому что работает с естественными ресурсами самого организма.
+            </p>
+            
+            <div class="trust-badges">
+                <div class="badge">Без боли и лекарств</div>
+                <div class="badge">Научный подход</div>
+                <div class="badge">Индивидуальный протокол</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES (NO PREGNANCY, YES KIDS) -->
     <section id="services" class="services section-padding">
         <div class="container">
             <h2 class="section-title">Направления практики</h2>
-            <p class="section-desc">Комплексный подход к здоровью без медикаментов и боли</p>
+            <p class="section-desc">Комплексный подход к здоровью без медикаментов</p>
             
             <div class="services-grid">
                 <div class="service-card">
                     <h3>Структуральная остеопатия</h3>
-                    <p>Коррекция нарушений опорно-двигательного аппарата. Работа с позвоночником, суставами и мышечными зажимами.</p>
+                    <p>Коррекция нарушений опорно-двигательного аппарата. Работа с позвоночником, суставами, осанкой и мышечными блоками.</p>
                 </div>
                 <div class="service-card">
                     <h3>Краниосакральная терапия</h3>
-                    <p>Мягкие техники для работы с черепом и крестцом. Эффективна при мигренях, бессоннице и хронической усталости.</p>
+                    <p>Мягкие техники для работы с черепом и крестцом. Эффективна при мигренях, бессоннице, хронической усталости и стрессе.</p>
                 </div>
                 <div class="service-card">
                     <h3>Висцеральная остеопатия</h3>
-                    <p>Восстановление подвижности внутренних органов. Улучшение пищеварения и кровообращения.</p>
+                    <p>Восстановление подвижности внутренних органов. Улучшение пищеварения, кровообращения и лимфодренажа.</p>
                 </div>
                 <div class="service-card">
-                    <h3>Перинатальная остеопатия</h3>
-                    <p>Подготовка к родам, восстановление после них. Безопасные техники для беременных и новорожденных.</p>
+                    <h3>Детская остеопатия</h3>
+                    <p>Бережная коррекция последствий родовых травм, гипертонуса, кривошеи, проблем со сном и развитием у детей с первых дней жизни.</p>
                 </div>
             </div>
         </div>
@@ -325,7 +320,7 @@
             <p class="section-desc">Реальные отзывы людей, которым мы помогли вернуть качество жизни</p>
             
             <div class="reviews-container" id="reviewsWall">
-                <!-- Отзывы будут добавлены через JS -->
+                <!-- Отзывы генерируются JS -->
             </div>
 
             <div class="text-center">
@@ -334,21 +329,90 @@
         </div>
     </section>
 
+    <!-- BOOKING FORM (FORMSPREE INTEGRATION) -->
+    <section id="booking" class="booking-section section-padding">
+        <div class="container">
+            <h2 class="section-title">Запись на приём</h2>
+            <p class="section-desc">Заполните форму, и я свяжусь с вами для подтверждения времени</p>
+            
+            <div class="form-box">
+                <!-- ЗАМЕНИ ССЫЛКУ НИЖЕ НА СВОЮ ИЗ FORMSPREE -->
+                <form action="https://formspree.io/f/xbgoagey" method="POST" id="bookingForm">
+                    <div class="form-group">
+                        <label>Ваше имя *</label>
+                        <input type="text" name="name" required placeholder="Как к вам обращаться?">
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон *</label>
+                        <input type="tel" name="phone" id="phoneInput" required placeholder="+7 (999) 000-00-00">
+                    </div>
+                    <div class="form-group">
+                        <label>Выберите услугу</label>
+                        <select name="service">
+                            <option value="consultation">Первичная консультация</option>
+                            <option value="structural">Структуральная остеопатия</option>
+                            <option value="cranial">Краниосакральная терапия</option>
+                            <option value="visceral">Висцеральная остеопатия</option>
+                            <option value="kids">Детский прием</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Комментарий (необязательно)</label>
+                        <textarea name="message" placeholder="Кратко опишите проблему..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Контакты</h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3>Телефон</h3>
+                    <p><a href="tel:+79055967009">+7 905 596 70 09</a></p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 5px;">Пн-Сб: 10:00 - 20:00</p>
+                </div>
+                <div class="contact-card">
+                    <h3>Telegram</h3>
+                    <p>Для быстрой связи и вопросов</p>
+                    <a href="https://t.me/Tatium" target="_blank" class="tg-btn">
+                        Написать в Telegram ✈️
+                    </a>
+                </div>
+                <div class="contact-card">
+                    <h3>Адрес</h3>
+                    <p>г. Москва</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Адрес уточняется при записи</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
-    <footer id="contact">
+    <footer>
         <div class="container">
             <h2 class="logo" style="color: white; margin-bottom: 20px;">TATIANA.</h2>
-            <p>Москва, ул. Примерная, д. 10 | +7 (999) 000-00-00</p>
-            <p style="margin-top: 20px;">© 2026 Tatiana Osteopathy. All rights reserved.</p>
+            <p>© 2026 Tatiana Osteopathy. Все права защищены.</p>
         </div>
     </footer>
 
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <!-- MODAL: AUTH -->
-    <div class="modal" id="authModal">
+    <div class="modal-overlay" id="authModal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <h3>Вход в систему</h3>
             <form id="authForm">
+                <div class="form-group">
+                    <label>Ваше имя (Никнейм)</label>
+                    <input type="text" id="usernameInput" required placeholder="Например: Анна К.">
+                </div>
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" required placeholder="name@example.com">
@@ -359,15 +423,11 @@
                 </div>
                 <button type="submit" class="btn" style="width: 100%;">Войти</button>
             </form>
-            <button class="google-btn">
-                <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.715H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.159 6.656 3.58 9 3.58z"/></svg>
-                Войти через Google
-            </button>
         </div>
     </div>
 
     <!-- MODAL: ADD REVIEW -->
-    <div class="modal" id="reviewModal">
+    <div class="modal-overlay" id="reviewModal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <h3>Ваш отзыв</h3>
@@ -389,94 +449,120 @@
     </div>
 
     <script>
-        // --- 1. ГЕНЕРАЦИЯ ФЕЙКОВЫХ ОТЗЫВОВ ---
-        const names = ["Анна К.", "Сергей В.", "Марина П.", "Дмитрий С.", "Елена М.", "Алексей Т.", "Ольга Н.", "Игорь Л.", "Светлана Р.", "Павел Ж."];
-        const texts = [
-            "Татьяна — настоящий профессионал. После первого сеанса прошла головная боль, которая мучила годами.",
-            "Очень бережный подход. Ребенок перестал плакать по ночам после визита к остеопату.",
-            "Привела мужа на спортивную остеопатию. Теперь ходим всей семьей. Атмосфера в кабинете располагает.",
-            "Долго искала своего специалиста. Татьяна слушает и слышит. Рекомендую всем знакомым.",
-            "Профессионализм высочайшего уровня. Чувствуется огромный опыт и любовь к делу.",
-            "Помогла восстановиться после родов. Спасибо за чуткость и внимательность!",
-            "Убрала зажим в шее за один прием. Теперь сплю как младенец.",
-            "Очень комфортный прием, никаких лишних назначений. Только мягкие техники."
+        // --- 1. CUSTOM TOAST NOTIFICATIONS ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span class="toast-msg">${message}</span>
+                <span class="toast-close" onclick="this.parentElement.remove()">×</span>
+            `;
+            container.appendChild(toast);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if(toast.parentElement) {
+                    toast.style.animation = 'fadeOut 0.5s forwards';
+                    setTimeout(() => toast.remove(), 500);
+                }
+            }, 5000);
+        }
+
+        // --- 2. REVIEWS SYSTEM WITH LOCALSTORAGE ---
+        const defaultReviews = [
+            { author: "Анна К.", text: "Татьяна — настоящий профессионал. После первого сеанса прошла головная боль, которая мучила годами.", stars: 5 },
+            { author: "Сергей В.", text: "Очень бережный подход. Ребенок перестал плакать по ночам после визита к остеопату.", stars: 5 },
+            { author: "Марина П.", text: "Привела мужа на спортивную остеопатию. Теперь ходим всей семьей. Атмосфера в кабинете располагает.", stars: 5 },
+            { author: "Дмитрий С.", text: "Долго искала своего специалиста. Татьяна слушает и слышит. Рекомендую всем знакомым.", stars: 5 },
+            { author: "Елена М.", text: "Профессионализм высочайшего уровня. Чувствуется огромный опыт и любовь к делу.", stars: 5 },
+            { author: "Алексей Т.", text: "Помогла восстановиться после родов. Спасибо за чуткость и внимательность!", stars: 5 }
         ];
 
-        let reviewsCount = 130; // Стартовое количество
-        let patientsCount = 789; // Стартовый счетчик пациентов
+        // Load reviews from LocalStorage or use defaults
+        let savedReviews = JSON.parse(localStorage.getItem('tatiana_reviews')) || defaultReviews;
+        let patientsCount = parseInt(localStorage.getItem('tatiana_patients')) || 789;
 
-        function generateReviews() {
+        function renderReviews() {
             const wall = document.getElementById('reviewsWall');
-            // Генерируем 12 отзывов для отображения (остальные "в базе")
-            for(let i=0; i<12; i++) {
-                const name = names[Math.floor(Math.random() * names.length)];
-                const text = texts[Math.floor(Math.random() * texts.length)];
-                const stars = "★★★★★";
-                
+            wall.innerHTML = '';
+            // Show last 12 reviews first
+            const reviewsToShow = savedReviews.slice(-12).reverse();
+            
+            reviewsToShow.forEach(r => {
                 const card = document.createElement('div');
                 card.className = 'review-card';
                 card.innerHTML = `
                     <div class="review-header">
-                        <span class="review-author">${name}</span>
-                        <span class="review-stars">${stars}</span>
+                        <span class="review-author">${r.author}</span>
+                        <span class="review-stars">${'★'.repeat(r.stars)}</span>
                     </div>
-                    <p class="review-text">"${text}"</p>
+                    <p class="review-text">"${r.text}"</p>
                 `;
                 wall.appendChild(card);
-            }
-        }
-
-        // --- 2. ЛОГИКА СЧЕТЧИКОВ ---
-        function updateCounters() {
+            });
+            
             document.getElementById('patient-counter').innerText = patientsCount;
-            // Можно добавить анимацию чисел, но пока просто текст
         }
 
-        // --- 3. МОДАЛЬНЫЕ ОКНА И АВТОРИЗАЦИЯ ---
+        // --- 3. AUTH SYSTEM ---
         const authModal = document.getElementById('authModal');
         const reviewModal = document.getElementById('reviewModal');
         const loginBtn = document.getElementById('loginBtn');
         const openReviewBtn = document.getElementById('openReviewModal');
-        const closeBtns = document.querySelectorAll('.close-modal');
+        
+        // Check login on load
+        const currentUser = localStorage.getItem('tatiana_user');
+        if(currentUser) {
+            loginBtn.innerText = currentUser;
+            loginBtn.classList.add('logged-in');
+        }
 
-        // Открытие/Закрытие
-        loginBtn.onclick = () => authModal.classList.add('active');
-        openReviewBtn.onclick = () => {
-            if(localStorage.getItem('isLoggedIn')) {
-                reviewModal.classList.add('active');
+        loginBtn.onclick = () => {
+            if(currentUser) {
+                // Logout logic
+                if(confirm('Выйти из аккаунта?')) {
+                    localStorage.removeItem('tatiana_user');
+                    localStorage.removeItem('last_review_date');
+                    location.reload();
+                }
             } else {
-                alert("Пожалуйста, войдите в систему, чтобы оставить отзыв.");
                 authModal.classList.add('active');
             }
         };
-        closeBtns.forEach(btn => btn.onclick = () => {
-            authModal.classList.remove('active');
-            reviewModal.classList.remove('active');
-        });
 
-        // Фейковая авторизация
         document.getElementById('authForm').onsubmit = (e) => {
             e.preventDefault();
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('username', 'User_' + Math.floor(Math.random()*1000));
+            const username = document.getElementById('usernameInput').value;
+            localStorage.setItem('tatiana_user', username);
             authModal.classList.remove('active');
-            loginBtn.innerText = localStorage.getItem('username');
-            loginBtn.style.background = '#1A3C34';
-            loginBtn.style.color = '#fff';
-            alert("Вы успешно вошли!");
+            loginBtn.innerText = username;
+            loginBtn.classList.add('logged-in');
+            showToast(`Добро пожаловать, ${username}!`, 'success');
         };
 
-        // Проверка входа при загрузке
-        if(localStorage.getItem('isLoggedIn')) {
-            loginBtn.innerText = localStorage.getItem('username');
-            loginBtn.style.background = '#1A3C34';
-            loginBtn.style.color = '#fff';
-        }
+        // --- 4. ADD REVIEW LOGIC ---
+        openReviewBtn.onclick = () => {
+            if(!localStorage.getItem('tatiana_user')) {
+                showToast('Пожалуйста, войдите в систему, чтобы оставить отзыв.', 'error');
+                authModal.classList.add('active');
+                return;
+            }
+            
+            // Check spam (1 review per day)
+            const lastDate = localStorage.getItem('last_review_date');
+            const today = new Date().toDateString();
+            if(lastDate === today) {
+                showToast('Вы уже оставляли отзыв сегодня. Следующая попытка завтра.', 'error');
+                return;
+            }
+            
+            reviewModal.classList.add('active');
+        };
 
-        // --- 4. ДОБАВЛЕНИЕ ОТЗЫВА ---
+        // Star rating logic
         const starSpans = document.querySelectorAll('#starRating span');
         const ratingInput = document.getElementById('ratingValue');
-
         starSpans.forEach(star => {
             star.onclick = () => {
                 const val = star.getAttribute('data-val');
@@ -488,48 +574,62 @@
 
         document.getElementById('reviewForm').onsubmit = (e) => {
             e.preventDefault();
-            
-            // Проверка на спам (1 отзыв в день)
-            const lastReviewDate = localStorage.getItem('lastReviewDate');
-            const today = new Date().toDateString();
-            
-            if(lastReviewDate === today) {
-                alert("Вы уже оставляли отзыв сегодня. Следующий отзыв доступен завтра.");
-                return;
-            }
-
             const text = e.target.querySelector('textarea').value;
-            const rating = "★".repeat(ratingInput.value);
-            const username = localStorage.getItem('username') || 'Гость';
+            const rating = parseInt(ratingInput.value);
+            const username = localStorage.getItem('tatiana_user');
 
-            const wall = document.getElementById('reviewsWall');
-            const newCard = document.createElement('div');
-            newCard.className = 'review-card';
-            newCard.style.border = '1px solid #C5A065'; // Подсветка нового
-            newCard.innerHTML = `
-                <div class="review-header">
-                    <span class="review-author">${username}</span>
-                    <span class="review-stars">${rating}</span>
-                </div>
-                <p class="review-text">"${text}"</p>
-            `;
+            const newReview = { author: username, text: text, stars: rating };
+            savedReviews.push(newReview);
+            localStorage.setItem('tatiana_reviews', JSON.stringify(savedReviews));
             
-            wall.insertBefore(newCard, wall.firstChild);
+            // Update counters
+            patientsCount++;
+            localStorage.setItem('tatiana_patients', patientsCount);
+            localStorage.setItem('last_review_date', new Date().toDateString());
             
-            // Обновляем счетчики
-            reviewsCount++;
-            patientsCount++; // Допустим, каждый новый отзыв = новый пациент
-            updateCounters();
-            
-            localStorage.setItem('lastReviewDate', today);
+            renderReviews();
             reviewModal.classList.remove('active');
             e.target.reset();
-            alert("Спасибо за ваш отзыв!");
+            showToast('Спасибо за ваш отзыв!', 'success');
         };
 
-        // Инициализация
-        generateReviews();
-        updateCounters();
+        // --- 5. BOOKING FORM VALIDATION & SUBMIT ---
+        const bookingForm = document.getElementById('bookingForm');
+        const phoneInput = document.getElementById('phoneInput');
+
+        // Phone mask
+        phoneInput.addEventListener('input', function(e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+            if (!x[2] && x[1] !== '') {
+                e.target.value = x[1] === '8' ? '+7' : '+' + x[1];
+            } else {
+                e.target.value = !x[2] ? x[1] : '+7 (' + x[2] + (x[3] ? ') ' + x[3] : '') + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+            }
+        });
+
+        bookingForm.onsubmit = (e) => {
+            const phoneVal = phoneInput.value.replace(/\D/g, '');
+            if(phoneVal.length < 11) {
+                e.preventDefault();
+                showToast('Ошибка: Номер телефона введен не полностью.', 'error');
+                return;
+            }
+            // If valid, Formspree will handle it. 
+            // We can show a success toast after redirect back (optional advanced feature), 
+            // but standard Formspree behavior is fine for now.
+            showToast('Заявка отправляется...', 'success');
+        };
+
+        // Close modals
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.onclick = () => {
+                authModal.classList.remove('active');
+                reviewModal.classList.remove('active');
+            }
+        });
+
+        // Init
+        renderReviews();
 
     </script>
 </body>
