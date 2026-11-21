@@ -173,6 +173,8 @@
         }
         .close-modal { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.5rem; color: var(--text-muted); }
         .modal-content h3 { font-size: 1.8rem; margin-bottom: 25px; text-align: center; }
+        .modal-actions { display: flex; gap: 15px; margin-top: 30px; }
+        .modal-actions button { flex: 1; }
 
         /* Custom Toast Notification */
         .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 3000; display: flex; flex-direction: column; gap: 10px; }
@@ -184,6 +186,7 @@
         }
         .toast.error { border-left-color: #d32f2f; }
         .toast.success { border-left-color: #2e7d32; }
+        .toast.info { border-left-color: var(--gold); }
         .toast-msg { font-size: 0.95rem; color: var(--text-main); }
         .toast-close { cursor: pointer; color: var(--text-muted); margin-left: 15px; font-size: 1.2rem; }
         
@@ -337,7 +340,7 @@
             
             <div class="form-box">
                 <!-- ЗАМЕНИ ССЫЛКУ НИЖЕ НА СВОЮ ИЗ FORMSPREE -->
-                <form action="https://formspree.io/f/xbgoagey" method="POST" id="bookingForm">
+                <form action="https://formspree.io/f/ТВОЙ_ID_ОТ_FORMSPREE" method="POST" id="bookingForm">
                     <div class="form-group">
                         <label>Ваше имя *</label>
                         <input type="text" name="name" required placeholder="Как к вам обращаться?">
@@ -380,7 +383,7 @@
                     <h3>Telegram</h3>
                     <p>Для быстрой связи и вопросов</p>
                     <a href="https://t.me/Tatium" target="_blank" class="tg-btn">
-                        Написать в Telegram ✈️
+                        Написать в Telegram
                     </a>
                 </div>
                 <div class="contact-card">
@@ -448,6 +451,18 @@
         </div>
     </div>
 
+    <!-- MODAL: LOGOUT CONFIRMATION -->
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
+            <h3 style="margin-bottom: 15px;">Выход из аккаунта</h3>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Вы уверены, что хотите выйти?</p>
+            <div class="modal-actions">
+                <button class="btn-outline" id="cancelLogout">Отмена</button>
+                <button class="btn" id="confirmLogout" style="background: #d32f2f; border-color: #d32f2f;">Выйти</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // --- 1. CUSTOM TOAST NOTIFICATIONS ---
         function showToast(message, type = 'success') {
@@ -460,7 +475,6 @@
             `;
             container.appendChild(toast);
             
-            // Auto remove after 5 seconds
             setTimeout(() => {
                 if(toast.parentElement) {
                     toast.style.animation = 'fadeOut 0.5s forwards';
@@ -469,24 +483,33 @@
             }, 5000);
         }
 
-        // --- 2. REVIEWS SYSTEM WITH LOCALSTORAGE ---
+        // --- 2. REVIEWS SYSTEM (FIXED STORAGE) ---
         const defaultReviews = [
             { author: "Анна К.", text: "Татьяна — настоящий профессионал. После первого сеанса прошла головная боль, которая мучила годами.", stars: 5 },
             { author: "Сергей В.", text: "Очень бережный подход. Ребенок перестал плакать по ночам после визита к остеопату.", stars: 5 },
-            { author: "Марина П.", text: "Привела мужа на спортивную остеопатию. Теперь ходим всей семьей. Атмосфера в кабинете располагает.", stars: 5 },
-            { author: "Дмитрий С.", text: "Долго искала своего специалиста. Татьяна слушает и слышит. Рекомендую всем знакомым.", stars: 5 },
-            { author: "Елена М.", text: "Профессионализм высочайшего уровня. Чувствуется огромный опыт и любовь к делу.", stars: 5 },
-            { author: "Алексей Т.", text: "Помогла восстановиться после родов. Спасибо за чуткость и внимательность!", stars: 5 }
+            { author: "Марина П.", text: "Привела мужа на спортивную остеопатию. Теперь ходим всей семьей.", stars: 5 },
+            { author: "Дмитрий С.", text: "Долго искала своего специалиста. Татьяна слушает и слышит.", stars: 5 },
+            { author: "Елена М.", text: "Профессионализм высочайшего уровня. Чувствуется огромный опыт.", stars: 5 },
+            { author: "Алексей Т.", text: "Помогла восстановиться после родов. Спасибо за чуткость!", stars: 5 }
         ];
 
-        // Load reviews from LocalStorage or use defaults
-        let savedReviews = JSON.parse(localStorage.getItem('tatiana_reviews')) || defaultReviews;
-        let patientsCount = parseInt(localStorage.getItem('tatiana_patients')) || 789;
+        let savedReviews = [];
+        try {
+            const stored = localStorage.getItem('tatiana_reviews');
+            savedReviews = stored ? JSON.parse(stored) : [...defaultReviews];
+        } catch (e) {
+            savedReviews = [...defaultReviews];
+        }
+
+        let patientsCount = 789;
+        try {
+            const storedCount = localStorage.getItem('tatiana_patients');
+            if (storedCount) patientsCount = parseInt(storedCount);
+        } catch (e) {}
 
         function renderReviews() {
             const wall = document.getElementById('reviewsWall');
             wall.innerHTML = '';
-            // Show last 12 reviews first
             const reviewsToShow = savedReviews.slice(-12).reverse();
             
             reviewsToShow.forEach(r => {
@@ -505,30 +528,48 @@
             document.getElementById('patient-counter').innerText = patientsCount;
         }
 
-        // --- 3. AUTH SYSTEM ---
+        // --- 3. AUTH & LOGOUT SYSTEM ---
         const authModal = document.getElementById('authModal');
         const reviewModal = document.getElementById('reviewModal');
+        const logoutModal = document.getElementById('logoutModal');
         const loginBtn = document.getElementById('loginBtn');
         const openReviewBtn = document.getElementById('openReviewModal');
+        const cancelLogoutBtn = document.getElementById('cancelLogout');
+        const confirmLogoutBtn = document.getElementById('confirmLogout');
         
-        // Check login on load
         const currentUser = localStorage.getItem('tatiana_user');
         if(currentUser) {
             loginBtn.innerText = currentUser;
             loginBtn.classList.add('logged-in');
         }
 
+        // Обработка клика по кнопке входа/выхода
         loginBtn.onclick = () => {
             if(currentUser) {
-                // Logout logic
-                if(confirm('Выйти из аккаунта?')) {
-                    localStorage.removeItem('tatiana_user');
-                    localStorage.removeItem('last_review_date');
-                    location.reload();
-                }
+                // Если пользователь авторизован - показываем красивое модальное окно
+                logoutModal.classList.add('active');
             } else {
+                // Если не авторизован - показываем окно входа
                 authModal.classList.add('active');
             }
+        };
+
+        // Отмена выхода
+        cancelLogoutBtn.onclick = () => {
+            logoutModal.classList.remove('active');
+        };
+
+        // Подтверждение выхода
+        confirmLogoutBtn.onclick = () => {
+            localStorage.removeItem('tatiana_user');
+            localStorage.removeItem('last_review_date');
+            logoutModal.classList.remove('active');
+            location.reload(); // Перезагружаем страницу для сброса состояния кнопки
+            
+            // Показываем тост после перезагрузки (через небольшой таймаут)
+            setTimeout(() => {
+                showToast('Вы вышли из аккаунта!', 'info');
+            }, 500);
         };
 
         document.getElementById('authForm').onsubmit = (e) => {
@@ -549,18 +590,16 @@
                 return;
             }
             
-            // Check spam (1 review per day)
             const lastDate = localStorage.getItem('last_review_date');
             const today = new Date().toDateString();
             if(lastDate === today) {
-                showToast('Вы уже оставляли отзыв сегодня. Следующая попытка завтра.', 'error');
+                showToast('Вы уже оставляли отзыв сегодня.', 'error');
                 return;
             }
             
             reviewModal.classList.add('active');
         };
 
-        // Star rating logic
         const starSpans = document.querySelectorAll('#starRating span');
         const ratingInput = document.getElementById('ratingValue');
         starSpans.forEach(star => {
@@ -580,12 +619,17 @@
 
             const newReview = { author: username, text: text, stars: rating };
             savedReviews.push(newReview);
-            localStorage.setItem('tatiana_reviews', JSON.stringify(savedReviews));
             
-            // Update counters
-            patientsCount++;
-            localStorage.setItem('tatiana_patients', patientsCount);
-            localStorage.setItem('last_review_date', new Date().toDateString());
+            try {
+                localStorage.setItem('tatiana_reviews', JSON.stringify(savedReviews));
+                patientsCount++;
+                localStorage.setItem('tatiana_patients', patientsCount);
+                localStorage.setItem('last_review_date', new Date().toDateString());
+            } catch (err) {
+                console.error("Ошибка сохранения:", err);
+                showToast("Не удалось сохранить отзыв", "error");
+                return;
+            }
             
             renderReviews();
             reviewModal.classList.remove('active');
@@ -593,11 +637,10 @@
             showToast('Спасибо за ваш отзыв!', 'success');
         };
 
-        // --- 5. BOOKING FORM VALIDATION & SUBMIT ---
+        // --- 5. BOOKING FORM VALIDATION ---
         const bookingForm = document.getElementById('bookingForm');
         const phoneInput = document.getElementById('phoneInput');
 
-        // Phone mask
         phoneInput.addEventListener('input', function(e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
             if (!x[2] && x[1] !== '') {
@@ -614,23 +657,28 @@
                 showToast('Ошибка: Номер телефона введен не полностью.', 'error');
                 return;
             }
-            // If valid, Formspree will handle it. 
-            // We can show a success toast after redirect back (optional advanced feature), 
-            // but standard Formspree behavior is fine for now.
             showToast('Заявка отправляется...', 'success');
         };
 
-        // Close modals
+        // Закрытие всех модалок по крестику или клику вне окна
         document.querySelectorAll('.close-modal').forEach(btn => {
             btn.onclick = () => {
                 authModal.classList.remove('active');
                 reviewModal.classList.remove('active');
+                logoutModal.classList.remove('active');
             }
+        });
+
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
         });
 
         // Init
         renderReviews();
-
     </script>
 </body>
 </html>
